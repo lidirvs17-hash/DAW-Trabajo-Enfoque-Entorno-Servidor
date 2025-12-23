@@ -1,0 +1,98 @@
+:root {
+   
+    --ck-primary: #F299A9;      /* Rosa Principal */
+    --ck-accent: #A0D9CE;       /* Menta Acentos y detalles */
+    --ck-dark-green: #5F736F;   /* Gris Verdoso Iconos y elementos técnicos */
+    --ck-soft-green: #AABFB3;   /* Sage Suave  Bordes y líneas divisorias */
+    --ck-light-red: #F2B6B6;    /* Rosa Claro Fondos de botones en Hover */
+
+    
+    /* Fondo General */
+    --ck-secondary: #F7F9F8;    
+    
+    /* Fondo de Tarjetas*/
+    --ck-card-bg: #FFFFFF;      
+
+    /* Texto Principal*/
+    --ck-text: #3A4745;         
+
+    /* Texto Secundario: Un tono más claro para descripciones largas */
+    --ck-text-light: #7A8C89;   
+
+    /* Color de Alerta/Error */
+    --ck-alert: #FFB3A7;
+}
+
+body {
+    background-color: var(--ck-secondary); 
+    color: var(--ck-text); 
+    font-family: 'Inter', sans-serif; 
+}
+
+/* 1. Navegación (Navbar) */
+.navbar-dark {
+    background-color: var(--ck-secondary) !important;
+    border-bottom: 3px solid var(--ck-primary); 
+}
+.navbar-brand {
+    color: var(--ck-accent) !important; 
+    font-weight: bold;
+}
+.nav-link:hover {
+    color: var(--ck-light-red) !important;
+}
+
+/* 2. Títulos */
+h1, h2, h3 {
+    color: var(--ck-accent);
+    border-bottom: 1px solid var(--ck-soft-red);
+    padding-bottom: 10px;
+}
+
+/* 3. Tarjetas*/
+.card {
+    background-color: var(--ck-card-bg);
+    color: var(--ck-text); 
+    border: 1px solid rgba(73, 111, 115, 0.2); 
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    background-color: var(--ck-primary) !important;
+    color: var(--ck-text-light) !important;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(73, 111, 115, 0.4); 
+    border-color: var(--ck-accent);
+}
+
+/* 4. Botones */
+.btn-primary {
+    background-color: var(--ck-accent);
+    border-color: var(--ck-accent);
+    color: var(--ck-secondary);
+    font-weight: 600;
+}
+.btn-primary:hover {
+    background-color: var(--ck-light-green);
+    border-color: var(--ck-light-green);
+    color: white;
+}
+
+/* 5. Formularios */
+.form-control:focus {
+    border-color: var(--ck-accent);
+    box-shadow: 0 0 0 0.25rem rgba(242, 143, 107, 0.25);
+}
+
+/* 6. Alertas e Historial */
+.alert-info {
+    background-color: var(--ck-primary);
+    color: #2C3E50;
+    border: none;
+}
+.badge.bg-primary {
+    background-color: var(--ck-dark-green) !important; /* Los precios o totales en granate */
+}
