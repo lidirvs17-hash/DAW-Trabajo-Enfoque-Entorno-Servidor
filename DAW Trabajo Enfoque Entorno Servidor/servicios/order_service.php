@@ -30,7 +30,7 @@ function processCheckout($id_usuario, $datos_envio) {
     
     $total = calculateCartTotal();
 
-    // 4. Iniciar Transacción en el DAO pasando los nuevos campos
+    // 4. Iniciar Transacción en el DAO 
     $success = saveOrderTransaction($id_usuario, $total, $cart_items, $direccion, $ciudad, $cp);
 
     if ($success) {

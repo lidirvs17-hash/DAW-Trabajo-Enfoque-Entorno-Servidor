@@ -21,20 +21,21 @@ function getCart() {
 */
 function addToCart($articulo_variante, $cantidad = 1) {
     initCart();
-    $id_variante = $articulo_variante['id_variante'];
-    $stock_disponible = $articulo_variante['stock']; 
+    
+    // Usamos el ID de variante para diferenciar tallas del mismo modelo
+    $id_v = $articulo_variante['id_variante'];
+    $stock_max = $articulo_variante['stock'];
 
-    $cantidad_actual = isset($_SESSION['cart'][$id_variante]) ? $_SESSION['cart'][$id_variante]['cantidad'] : 0;
+    $cantidad_actual = isset($_SESSION['cart'][$id_v]) ? $_SESSION['cart'][$id_v]['cantidad'] : 0;
 
-    if (($cantidad_actual + $cantidad) > $stock_disponible) {
-        $mensaje = 'No hay suficiente stock disponible para la cantidad solicitada.';
+    if (($cantidad_actual + $cantidad) > $stock_max) {
         return false; 
     }
 
-    if (isset($_SESSION['cart'][$id_variante])) {
-        $_SESSION['cart'][$id_variante]['cantidad'] += $cantidad;
+    if (isset($_SESSION['cart'][$id_v])) {
+        $_SESSION['cart'][$id_v]['cantidad'] += $cantidad;
     } else {
-        $_SESSION['cart'][$id_variante] = [
+        $_SESSION['cart'][$id_v] = [
             'articulo' => $articulo_variante,
             'cantidad' => $cantidad
         ];

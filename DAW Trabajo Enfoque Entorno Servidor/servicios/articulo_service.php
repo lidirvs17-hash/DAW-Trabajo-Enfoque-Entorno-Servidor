@@ -73,6 +73,14 @@ function eliminarArticulo($id) {
     return deleteArticulo($id);
 }
 function obtenerArticuloPorId($id) {
-return getArticuloById($id);
+    // 4. Obtener datos básicos del artículo
+    $articulo = getArticuloById($id);
+    
+    if ($articulo) {
+        // 5. Adjuntar las tallas y stocks para que el carrito pueda validar
+        $articulo['tallas'] = getArticuloTallas($id);
+    }
+    
+    return $articulo;
 }
 ?>

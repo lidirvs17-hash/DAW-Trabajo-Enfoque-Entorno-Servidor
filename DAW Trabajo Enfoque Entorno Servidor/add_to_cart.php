@@ -1,45 +1,49 @@
 <?php
 session_start();
-
 require_once 'servicios/cart_service.php';
 require_once 'servicios/articulo_service.php';
 
-$base_url = '/LRVS/';
-
-//1 Si no hay sesion de usuario, redirigir al login
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . $base_url . 'login.php');
-    exit;
-}
-
-// 2. Obtener ID del artículo, cantidad y talla
+// Capturamos los datos del catálogo (GET)
 $id_articulo = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$cantidad = filter_input(INPUT_GET, 'qty', FILTER_VALIDATE_INT) ?: 1;
 $talla = filter_input(INPUT_GET, 'talla', FILTER_SANITIZE_SPECIAL_CHARS);
+$qty = filter_input(INPUT_GET, 'qty', FILTER_VALIDATE_INT) ?? 1;
 
 if ($id_articulo && $talla) {
-    $articulo_base = obtenerArticuloPorId($id_articulo); 
-
-    if ($articulo_base) {
-        $variante_id = $id_articulo . '-' . $talla;
-        $articulo_variante = $articulo_base;
-        $articulo_variante['talla_seleccionada'] = $talla;
-        $articulo_variante['id_variante'] = $variante_id;
+    // Buscamos la información completa del artículo para guardarla en la sesión
+    $articulo = obtenerArticuloPorId($id_articulo);
+    
+    if ($articulo) {
+        // Añadimos la talla seleccionada al array del artículo
+        $articulo['talla_seleccionada'] = $talla;
         
-        // 3. Agregar al carrito (Usando la variante ID y la info de la variante)
-        addToCart($articulo_variante, $cantidad);
-        $mensaje = urlencode('Artículo ' . $articulo_base['nombre'] . ' (Talla: ' . $talla . ') añadido.');
+        // Buscamos el stock específico de esa talla
+        $stock_disponible = 0;
+        foreach ($articulo['tallas'] as $variante) {
+            if ($variante['talla'] == $talla) {
+                $stock_disponible = $variante['stock'];
+                break;
+            }
+        }
+
+        // Preparamos el objeto variante para el servicio
+        $articulo_variante = [
+            'id_variante' => $id_articulo . "_" . $talla, // ID único: producto + talla
+            'id_articulo' => $id_articulo,
+            'nombre' => $articulo['nombre'],
+            'precio' => $articulo['precio'],
+            'talla_seleccionada' => $talla,
+            'stock' => $stock_disponible
+        ];
+
+        if (addToCart($articulo_variante, $qty)) {
+            header('Location: catalogo.php?msg=' . urlencode('¡Añadido al inventario!'));
+        } else {
+            header('Location: catalogo.php?msg=' . urlencode('Error: No hay suficiente stock.'));
+        }
     } else {
-        $mensaje = urlencode('Error: Artículo no encontrado.');
+        header('Location: catalogo.php?msg=' . urlencode('Error: Artículo no encontrado.'));
     }
 } else {
-    $mensaje = urlencode('Error: Faltan el ID o la Talla.');
+    header('Location: catalogo.php?msg=' . urlencode('Error: Selecciona una talla.'));
 }
-// 4. Redirigir de vuelta al catálogo o página anterior
-$referrer = $_SERVER['HTTP_REFERER'] ?? '/LRVS/catalogo.php';
-// Eliminar parámetros de consulta para evitar duplicados
-$base_referrer = strtok($referrer, '?'); 
-
-header('Location: /LRVS/catalogo.php?msg=' . $mensaje);
 exit;
-?>
