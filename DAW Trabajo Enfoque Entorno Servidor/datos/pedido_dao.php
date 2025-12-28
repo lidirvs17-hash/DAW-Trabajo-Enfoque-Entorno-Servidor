@@ -30,7 +30,7 @@ function getDetallesPedido($id_pedido) {
     $conn = connectDB();
     if (!$conn) return [];
     
-    $sql = "SELECT dp.cantidad, dp.precio_unitario, a.nombre 
+$sql = "SELECT dp.cantidad, dp.precio_unitario, dp.talla, a.nombre 
             FROM detalle_pedido dp
             JOIN articulos a ON dp.id_articulo = a.id_articulo
             WHERE dp.id_pedido = ?";
