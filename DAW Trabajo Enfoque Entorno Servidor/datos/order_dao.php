@@ -21,7 +21,7 @@ function saveOrderTransaction($id_usuario, $total, $detalles, $direccion, $ciuda
         $stmt_pedido->close();
 
         // 2. Insertar Detalles y Actualizar Stock
-        $sql_detalle = "INSERT INTO detalle_pedido (id_pedido, id_articulo, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
+        $sql_detalle = "INSERT INTO detalle_pedido (id_pedido, id_articulo, cantidad, precio_unitario, talla) VALUES (?, ?, ?, ?, ?)";
         $stmt_detalle = $conn->prepare($sql_detalle);
 
         $sql_stock = "UPDATE articulo_talla SET stock = stock - ? WHERE id_articulo = ? AND talla = ?";
@@ -34,7 +34,7 @@ function saveOrderTransaction($id_usuario, $total, $detalles, $direccion, $ciuda
             $talla = $item['articulo']['talla_seleccionada'];
 
             // Guardar detalle
-            $stmt_detalle->bind_param("iidd", $id_pedido, $id_articulo, $cantidad, $precio_unidad);
+           $stmt_detalle->bind_param("iidds", $id_pedido, $id_articulo, $cantidad, $precio_unidad, $talla);
             if (!$stmt_detalle->execute()) throw new Exception("Error en detalle");
 
             // Actualizar stock
