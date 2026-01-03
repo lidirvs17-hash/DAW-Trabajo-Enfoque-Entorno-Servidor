@@ -1,45 +1,43 @@
-👟 CROSS-KICKS | E-Commerce de Calzado Especializado
-📖 Descripción del Proyecto
-CROSS-KICKS es una plataforma de comercio electrónico desarrollada como proyecto para el módulo de Desarrollo Web en Entorno Servidor (DWES). La aplicación simula una tienda de zapatillas de ediciones limitadas inspiradas en elementos de la cultura pop y videojuegos, permitiendo la gestión integral de productos, usuarios y pedidos.
+# CROSS-KICKS 👟 - E-commerce de Calzado Especializado
 
-El proyecto se enfoca en la implementación de una arquitectura robusta en PHP, gestión de sesiones seguras y una base de datos relacional normalizada.
+Este proyecto es una aplicación web de comercio electrónico desarrollada para el **Grado Superior de DAW**. La plataforma permite la gestión integral de productos (zapatillas), usuarios, carritos de compra y un historial detallado de pedidos con persistencia de datos.
 
-🚀 Funcionalidades Principales
-Para Usuarios (Clientes)
-Catálogo Dinámico: Visualización de productos con información detallada de stock por talla.
+## 🏗️ Arquitectura del Sistema
 
-Gestión de Inventario: Sistema de "Loot" (carrito de compras) con validación de stock en tiempo real mediante selectores dinámicos.
+La aplicación sigue un patrón de **Arquitectura Multicapa (Tres Capas)** para garantizar el desacoplamiento y la mantenibilidad del código:
 
-Historial de Misiones: Consulta detallada de pedidos anteriores.
+1.  **Capa de Presentación (Vista):** Archivos PHP en la raíz (`index.php`, `catalogo.php`, `historial_pedidos.php`) que gestionan la interfaz de usuario mediante HTML5, CSS3 y Bootstrap.
+2.  **Capa de Lógica de Negocio (Servicios):** Ubicada en `/servicios/`. Contiene la inteligencia de la aplicación:
+    * `order_service.php`: Procesa el checkout y validaciones de compra.
+    * `cart_service.php`: Gestiona el estado del carrito en la sesión.
+    * `user_service.php`: Controla la autenticación y perfiles.
+3.  **Capa de Acceso a Datos (DAO):** Ubicada en `/datos/`. Interactúa directamente con la base de datos MySQL mediante sentencias preparadas para prevenir SQL Injection:
+    * `order_dao.php`: Gestiona transacciones SQL complejas.
+    * `pedido_dao.php`: Recupera información histórica de ventas.
 
-Registro y Perfil: Gestión de datos personales y seguridad de acceso.
+## 🚀 Características Destacadas
 
-Para Administradores
-Panel de Control: Gestión centralizada de usuarios (CRUD completo).
+* **Gestión de Transacciones:** El proceso de compra utiliza transacciones SQL (`begin_transaction`, `commit`, `rollback`) para asegurar la integridad entre la creación del pedido y la actualización del stock.
+* **Persistencia Histórica:** Se implementó una lógica de "Snapshot" en los pedidos. Al realizar una compra, la talla y el precio se guardan directamente en la tabla `detalle_pedido`, garantizando que el historial sea inalterable aunque el producto cambie en el catálogo.
+* **Seguridad:** Uso de `password_hash` para el almacenamiento de credenciales y `bind_param` en todas las consultas a la base de datos.
+* **Panel de Administración:** Gestión de inventario (CRUD) y control de usuarios según roles (`Admin` / `Cliente`).
 
-Control de Acceso: Middleware de autenticación que protege las rutas sensibles según el rol del usuario (Admin / Cliente).
+## 🛠️ Tecnologías Utilizadas
 
-🛠️ Stack Tecnológico
-Backend: PHP (Programación procedimental orientada a servicios).
+* **Backend:** PHP 7.4+
+* **Base de Datos:** MySQL / MariaDB
+* **Frontend:** HTML5, CSS3, JavaScript, Bootstrap 5
+* **Iconografía:** FontAwesome
 
-Frontend: HTML5, CSS3 (Custom Variables), JavaScript (ES6) y Bootstrap 5 para el diseño responsive.
+## 📋 Instalación
 
-Base de Datos: MariaDB/MySQL.
+1. Clona el repositorio.
+2. Importa el archivo `if0_40734835_cross_kicks.sql` en tu servidor MySQL.
+3. Configura las credenciales de conexión en `datos/db_connection.php`.
+4. Asegúrate de tener habilitadas las sesiones en tu servidor PHP.
 
-Seguridad: - Hasheo de contraseñas mediante password_hash().
-
-Prevención de ataques XSS mediante filtrado de inputs y sanitización de salidas (htmlspecialchars).
-
-🗄️ Estructura de la Base de Datos
-El sistema utiliza una base de datos llamada if0_40734835_cross_kicks compuesta por las siguientes tablas clave:
-
-articulos: Información técnica y descriptiva de los productos.
-
-articulo_talla: Gestión de stock detallada por variantes de tamaño.
-
-usuarios: Almacenamiento de credenciales y roles.
-
-pedido & detalle_pedido: Relación 1:N para el registro histórico de ventas.
+---
+**Desarrollado como proyecto para el ciclo de Desarrollo de Aplicaciones Web (DAW).**
 
 📁 Estructura del Proyecto
 Plaintext
@@ -52,18 +50,6 @@ Plaintext
 ├── gestion_usuarios.php # Panel de administración
 └── if0_40734835_cross_kicks.sql # Script de creación de la BD
 🔧 Instalación y Configuración
-Clonar el repositorio:
-
-Bash
-
-git clone https://github.com/tu-usuario/cross-kicks.git
-Configurar la Base de Datos:
-
-Importar el archivo .sql incluido en la carpeta raíz en tu gestor de DB (phpMyAdmin/MySQL Workbench).
-
-Ajustar la Conexión:
-
-El archivo datos/db_connection.php detecta automáticamente si el entorno es localhost o remoto para facilitar el despliegue.
 
 Servidor:
 
