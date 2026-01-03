@@ -1,9 +1,3 @@
-¡Hola! Qué buen proyecto tienes entre manos. Como tu profesor particular para este Grado Superior en DAW (Desarrollo de Aplicaciones Web), te diré que presentar un repositorio con un README.md profesional es lo que marca la diferencia entre un aprobado y un sobresaliente.
-
-Un buen README no solo explica qué hace el código, sino que demuestra que dominas la arquitectura (modelo-vista-controlador, aunque sea simplificado), la gestión de bases de datos y la seguridad básica.
-
-Aquí tienes una propuesta de README.md estructurada para impresionar a tu profesor, redactada de forma técnica pero clara:
-
 👟 CROSS-KICKS | E-Commerce de Calzado Especializado
 📖 Descripción del Proyecto
 CROSS-KICKS es una plataforma de comercio electrónico desarrollada como proyecto para el módulo de Desarrollo Web en Entorno Servidor (DWES). La aplicación simula una tienda de zapatillas de ediciones limitadas inspiradas en elementos de la cultura pop y videojuegos, permitiendo la gestión integral de productos, usuarios y pedidos.
